@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.presentationManager = new ModernPresentationManager();
 });
 
-// 高度な表示領域検出と自動調整
+// 高度な表示領域検出と 自動調整
 class TableAutoSizer {
   constructor(tableElement) {
     this.table = tableElement;
