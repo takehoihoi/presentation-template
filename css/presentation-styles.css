@@ -1,0 +1,1604 @@
+* {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  :root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px
+        rgba(0, 0, 0, 0.04);
+    --card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  body {
+    font-family: "Noto Sans JP", sans-serif;
+    scroll-behavior: smooth;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--primary-gradient);
+    z-index: 1000;
+    transition: width 0.3s ease;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+  }
+
+  .slide-container {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto 2rem auto;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 24px;
+    background: white;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide-container:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .slide-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 24px;
+    padding: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  /* 画面表示用のパターンB専用スタイル */
+  @media screen {
+    .pattern-b-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-height: 0;
+    }
+
+    .pattern-b-content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+  }
+
+  /* ================================================
+     印刷用スタイル - A4横印刷完全対応（Windows/Mac両対応強化版）
+     ================================================ */
+  @media print {
+    /* ========== 基本設定 ========== */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    body {
+      background: linear-gradient(
+        135deg,
+        #667eea 0%,
+        #764ba2 100%
+      ) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: "Noto Sans JP", Arial, sans-serif !important;
+      width: 297mm !important;
+      height: 210mm !important;
+    }
+
+    /* ========== スライドコンテナ基本設定 ========== */
+    .slide-container {
+      width: 297mm !important;
+      height: 210mm !important;
+      max-width: 297mm !important;
+      max-height: 210mm !important;
+      min-height: 210mm !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      margin: 0 !important;
+      aspect-ratio: auto !important;
+      overflow: visible !important;
+      box-shadow: var(--card-shadow) !important;
+      transform: none !important;
+      border-radius: 24px !important;
+      background: white !important;
+      position: relative !important;
+      display: block !important;
+    }
+
+    .slide-container:last-child {
+      page-break-after: auto;
+    }
+
+    .slide-content {
+      width: 100% !important;
+      height: 100% !important;
+      padding: clamp(1.5rem, 3vw, 3rem) !important;
+      position: relative !important;
+      overflow: visible !important;
+      border-radius: 24px !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ========== パターンB専用印刷スタイル ========== */
+    /* パターンB専用の印刷時パディング削減 */
+    .pattern-b-slide .slide-content {
+      padding: 1.5rem 2rem !important; /* 通常の3remから削減 */
+    }
+
+    /* パターンB用の特別な印刷スタイル（改善版） */
+    .pattern-b-content {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      position: relative !important;
+      overflow: visible !important;
+      gap: 0 !important;
+    }
+
+    /* パターンBのmodern-cardのパディング削減 */
+    .pattern-b-content .modern-card {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+      page-break-inside: avoid !important;
+      position: relative !important;
+      max-height: none !important;
+      margin-bottom: 0.75rem !important; /* 1remから削減 */
+      padding: 1.5rem !important; /* p-8から削減 */
+    }
+
+    /* パターンBのヘッダー調整 */
+    .pattern-b-slide .section-header {
+      margin-bottom: 1.5rem !important; /* 2remから削減 */
+    }
+
+    /* パターンB内のタイトルサイズ調整 */
+    .pattern-b-content h2 {
+      font-size: 2rem !important; /* 3xlから削減 */
+      margin-bottom: 1rem !important; /* 1.5remから削減 */
+    }
+
+    /* パターンBのコンテンツエリアを印刷用に最適化 */
+    .pattern-b-content-area {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      position: relative !important;
+      overflow: visible !important;
+      padding-right: 0 !important;
+      /* ページ分割を許可する */
+      page-break-inside: auto !important;
+    }
+
+    /* パターンB内の各セクションのマージン削減 */
+    .pattern-b-content .prose {
+      max-width: none !important;
+      display: block !important;
+      page-break-inside: auto !important;
+      margin-bottom: 0.75rem !important; /* 1remから削減 */
+    }
+
+    .pattern-b-content .prose p {
+      font-size: 1rem !important; /* text-lgから削減 */
+      line-height: 1.6 !important; /* leading-relaxedから削減 */
+    }
+
+    /* パターンB内のグリッドレイアウトのギャップ削減 */
+    .pattern-b-content .grid {
+      display: grid !important;
+      page-break-inside: avoid !important;
+      margin-bottom: 0.75rem !important;
+      gap: 1rem !important; /* 1.5remから削減 */
+    }
+
+    /* パターンB内の背景色付きボックスのパディング削減 */
+    .pattern-b-content .bg-blue-50,
+    .pattern-b-content .bg-green-50,
+    .pattern-b-content .bg-gradient-to-r {
+      page-break-inside: avoid !important;
+      display: block !important;
+      position: relative !important;
+      margin-bottom: 0.5rem !important;
+      padding: 1rem !important; /* p-6から削減 */
+    }
+
+    /* パターンB内のボックス内タイトルのマージン削減 */
+    .pattern-b-content h4 {
+      margin-bottom: 0.5rem !important; /* mb-3から削減 */
+    }
+
+    /* パターンBのスペーシング調整 */
+    .pattern-b-content .space-y-6 > * + * {
+      margin-top: 1rem !important; /* 1.5remから削減 */
+    }
+
+    .pattern-b-content .mb-6 {
+      margin-bottom: 0.75rem !important; /* 1.5remから削減 */
+    }
+
+    /* パターンB専用：コンテンツが多い場合の自動ページ分割 */
+    .pattern-b-content > * {
+      position: relative !important;
+      display: block !important;
+    }
+
+    /* パターンBのタイトル部分は常に同じページに */
+    .pattern-b-content > .modern-card > h2:first-child {
+      page-break-after: avoid !important;
+    }
+
+    /* flex関連のクラスを印刷時に無効化 */
+    .pattern-b-content .flex-1,
+    .pattern-b-content .h-full,
+    .pattern-b-content .min-h-0 {
+      flex: none !important;
+      height: auto !important;
+      min-height: auto !important;
+    }
+
+    /* overflow設定を強制的に可視化 */
+    .pattern-b-content .overflow-y-auto,
+    .pattern-b-content .overflow-hidden {
+      overflow: visible !important;
+      height: auto !important;
+      max-height: none !important;
+    }
+
+    /* ========== 共通要素印刷スタイル ========== */
+    /* ヘッダー部分の調整 */
+    .section-header {
+      display: flex !important;
+      align-items: center !important;
+      margin-bottom: 2rem !important;
+      flex-shrink: 0 !important;
+      page-break-inside: avoid !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+
+    .slide-title {
+      font-size: clamp(2rem, 4vw, 3.5rem) !important;
+      line-height: 1.1 !important;
+      margin-bottom: 1rem !important;
+      font-weight: 700 !important;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem) !important;
+      line-height: 1.3 !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    /* ========== カード・エフェクト印刷スタイル ========== */
+    /* モダンカードとガラスエフェクトの維持 */
+    .modern-card {
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(248, 250, 252, 0.95) 100%
+      ) !important;
+      backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 20px !important;
+      box-shadow: var(--card-shadow) !important;
+      transform: none !important;
+      opacity: 1 !important;
+      page-break-inside: avoid !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(15px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 16px !important;
+    }
+
+    .insight-card {
+      position: relative !important;
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(248, 250, 252, 0.9) 100%
+      ) !important;
+      border-radius: 16px !important;
+      padding: 1.5rem !important;
+      border-left: 4px solid transparent !important;
+      border-image: var(--primary-gradient) 1 !important;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+      page-break-inside: avoid !important;
+      margin-bottom: 1rem !important;
+    }
+
+    /* ========== テキスト・アイコン印刷スタイル ========== */
+    /* グラデーションテキストとアイコンの維持 */
+    .gradient-text {
+      background: var(--primary-gradient) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+    }
+
+    .icon-gradient {
+      background: var(--primary-gradient) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+    }
+
+    /* メトリック数値 */
+    .metric-number {
+      font-size: clamp(1.5rem, 3vw, 2.5rem) !important;
+      font-weight: 700 !important;
+      font-family: "Roboto Mono", monospace !important;
+    }
+
+    /* バッジとアイコン */
+    .badge-modern {
+      background: var(--primary-gradient) !important;
+      color: white !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 50px !important;
+      font-size: 0.875rem !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.25rem !important;
+      vertical-align: middle !important;
+    }
+
+    /* ========== チャート・ダイアグラム印刷スタイル ========== */
+    /* チャートエリアの調整 */
+    .chart-container {
+      position: relative !important;
+      height: 250px !important;
+      border-radius: 16px !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      padding: 1rem !important;
+    }
+
+    /* Canvasグラフを表示 */
+    canvas {
+      display: block !important;
+      max-height: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Mermaidダイアグラムの表示 */
+    .mermaid-container {
+      min-height: 250px !important;
+      max-height: 300px !important;
+      width: 100% !important;
+      overflow: visible !important;
+      background: linear-gradient(
+        to bottom right,
+        #f8fafc,
+        #e0f2fe
+      ) !important;
+      page-break-inside: avoid !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .mermaid {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      text-align: center !important;
+    }
+
+    .mermaid svg {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 250px !important;
+    }
+
+    /* ========== レイアウト印刷スタイル ========== */
+    /* ページ番号 */
+    .page-number {
+      position: absolute !important;
+      bottom: 1.5rem !important;
+      right: 1.5rem !important;
+      background: rgba(0, 0, 0, 0.05) !important;
+      backdrop-filter: blur(10px) !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 50px !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+      color: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* 非表示要素 */
+    .no-print,
+    .progress-bar {
+      display: none !important;
+    }
+
+    /* アニメーションの無効化 */
+    .floating-animation,
+    .pulse-animation {
+      animation: none !important;
+    }
+
+    /* ========== 特別なスライド印刷スタイル ========== */
+    /* 特別なスライドの背景色を維持 */
+    #slide-cover .slide-content {
+      background: linear-gradient(
+        135deg,
+        #667eea 0%,
+        #764ba2 100%
+      ) !important;
+      color: white !important;
+    }
+
+    #slide-thanks .slide-content {
+      background: linear-gradient(
+        135deg,
+        #4facfe 0%,
+        #00f2fe 100%
+      ) !important;
+      color: white !important;
+    }
+
+    #slide-cover .page-number,
+    #slide-thanks .page-number {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+    }
+
+    /* ========== グリッド・フレックス印刷スタイル ========== */
+    /* Windows印刷対応のためのグリッドレイアウト強化 */
+    .grid {
+      display: grid !important;
+      width: 100% !important;
+    }
+
+    .lg\\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 1.5rem !important;
+    }
+
+    .lg\\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 1.5rem !important;
+    }
+
+    .lg\\:grid-cols-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 1.5rem !important;
+    }
+
+    .lg\\:col-span-2 {
+      grid-column: span 2 / span 2 !important;
+    }
+
+    .lg\\:col-span-3 {
+      grid-column: span 3 / span 3 !important;
+    }
+
+    /* Windows印刷対応のためのフレックスレイアウト安定化 */
+    .flex {
+      display: flex !important;
+    }
+
+    .flex-col {
+      flex-direction: column !important;
+    }
+
+    .flex-1 {
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+
+    .items-center {
+      align-items: center !important;
+    }
+
+    .justify-center {
+      justify-content: center !important;
+    }
+
+    .space-y-4 > * + * {
+      margin-top: 1rem !important;
+    }
+
+    .space-y-6 > * + * {
+      margin-top: 1.5rem !important;
+    }
+
+    /* 印刷時のコンテンツ可視性確保 */
+    .overflow-hidden {
+      overflow: visible !important;
+    }
+
+    .overflow-y-auto {
+      overflow: visible !important;
+    }
+
+    /* Windows印刷でのコンテンツ表示保証 */
+    .min-h-0 {
+      min-height: auto !important;
+    }
+
+    /* ========== パターン特有の印刷スタイル ========== */
+    /* クラスター分析専用の印刷スタイル */
+    .cluster-grid-container {
+      padding: 0.25rem !important;
+    }
+
+    .cluster-card {
+      padding: 1rem !important;
+      page-break-inside: avoid !important;
+      height: auto !important;
+      min-height: 120px !important;
+    }
+
+    .cluster-title {
+      font-size: 1.25rem !important;
+    }
+
+    .cluster-subtitle {
+      font-size: 0.875rem !important;
+    }
+
+    .cluster-description {
+      font-size: 0.75rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .cluster-tag {
+      font-size: 0.625rem !important;
+      padding: 0.125rem 0.5rem !important;
+    }
+
+    .cluster-header {
+      margin-bottom: 0.5rem !important;
+    }
+
+    .cluster-content {
+      margin-bottom: 0.5rem !important;
+    }
+
+    /* グリッドのギャップを縮小 */
+    .grid {
+      gap: 0.75rem !important;
+    }
+
+    /* セクションヘッダーの調整 */
+    .section-header {
+      margin-bottom: 1rem !important;
+    }
+
+    /* ペルソナシート専用の印刷調整 */
+    .persona-container {
+      gap: 1rem !important;
+      height: auto !important;
+      min-height: calc(100% - 3rem) !important;
+    }
+    .persona-basic {
+      gap: 0.75rem !important;
+      overflow: visible !important;
+    }
+    .persona-details {
+      gap: 0.75rem !important;
+      overflow: visible !important;
+      padding-right: 0 !important;
+      height: auto !important;
+    }
+    .persona-detail-row {
+      gap: 0.75rem !important;
+      overflow: visible !important;
+    }
+    .persona-card {
+      padding: 1rem !important;
+      page-break-inside: avoid !important;
+      overflow: visible !important;
+    }
+    .persona-card.wide {
+      display: block !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    .persona-photo {
+      width: 80px !important;
+      height: 80px !important;
+      margin-bottom: 0.75rem !important;
+    }
+    .persona-name {
+      font-size: 1.5rem !important;
+    }
+    .persona-section-title {
+      font-size: 1rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+    .persona-info-grid {
+      gap: 0.5rem !important;
+    }
+    .persona-detail-content {
+      gap: 0.625rem !important;
+    }
+    .approach-grid {
+      gap: 0.75rem !important;
+      display: grid !important;
+    }
+    .approach-item {
+      padding: 0.75rem !important;
+      display: block !important;
+    }
+    .info-label,
+    .detail-label {
+      font-size: 0.625rem !important;
+    }
+    .info-value,
+    .detail-text,
+    .approach-text {
+      font-size: 0.75rem !important;
+      line-height: 1.4 !important;
+    }
+    .approach-title {
+      font-size: 0.75rem !important;
+      margin-bottom: 0.375rem !important;
+    }
+    /* ペルソナシート専用の印刷最適化 */
+    #slide-persona {
+      height: 210mm !important;
+      overflow: visible !important;
+    }
+    #slide-persona .slide-content {
+      height: 100% !important;
+      padding: 0.75rem 1.25rem !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    #slide-persona .section-header {
+      flex-shrink: 0 !important;
+      margin-bottom: 0.375rem !important;
+    }
+    #slide-persona .persona-container {
+      flex: 1 !important;
+      display: grid !important;
+      grid-template-columns: 220px 1fr !important;
+      gap: 0.375rem !important;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+    #slide-persona .persona-basic {
+      display: block !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    #slide-persona .persona-details {
+      display: block !important;
+      overflow: visible !important;
+      height: auto !important;
+      max-height: none !important;
+    }
+    #slide-persona .persona-detail-row {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 0.375rem !important;
+      overflow: visible !important;
+      height: auto !important;
+      margin-bottom: 0.375rem !important;
+    }
+    #slide-persona .persona-card {
+      height: auto !important;
+      overflow: visible !important;
+      min-height: auto !important;
+      max-height: none !important;
+    }
+    /* 解決アプローチセクションの確実な表示 */
+    #slide-persona .persona-card.wide {
+      grid-column: 1 / -1 !important;
+      page-break-inside: avoid !important;
+      margin-top: 0.25rem !important;
+      height: auto !important;
+      overflow: visible !important;
+      max-height: none !important;
+    }
+    #slide-persona .approach-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.5rem !important;
+    }
+    #slide-persona .approach-item {
+      padding: 0.5rem !important;
+    }
+    #slide-persona .approach-title {
+      font-size: 0.625rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+    #slide-persona .approach-text {
+      font-size: 0.625rem !important;
+      line-height: 1.3 !important;
+    }
+    /* コンテンツ量に応じたペルソナシートの動的調整 */
+    #slide-persona[data-content-heavy="true"] .persona-card {
+      padding: 0.5rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .persona-photo {
+      width: 50px !important;
+      height: 50px !important;
+      margin-bottom: 0.375rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .persona-name {
+      font-size: 1rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .persona-section-title {
+      font-size: 0.75rem !important;
+      margin-bottom: 0.375rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .info-label,
+    #slide-persona[data-content-heavy="true"] .detail-label {
+      font-size: 0.4375rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .info-value,
+    #slide-persona[data-content-heavy="true"] .detail-text,
+    #slide-persona[data-content-heavy="true"] .approach-text {
+      font-size: 0.5rem !important;
+      line-height: 1.15 !important;
+    }
+    #slide-persona[data-content-heavy="true"] .approach-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.375rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .approach-item {
+      padding: 0.375rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .approach-title {
+      font-size: 0.5rem !important;
+      margin-bottom: 0.125rem !important;
+    }
+    #slide-persona[data-content-heavy="true"] .approach-text {
+      font-size: 0.5rem !important;
+      line-height: 1.15 !important;
+    }
+    /* 極端にコンテンツが多い場合の最終手段 */
+    #slide-persona[data-content-extreme="true"] {
+      font-size: 0.875rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .slide-content {
+      padding: 0.5rem 1rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .section-header {
+      margin-bottom: 0.25rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .persona-container {
+      grid-template-columns: 200px 1fr !important;
+      gap: 0.25rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .persona-card {
+      padding: 0.375rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .persona-detail-row {
+      gap: 0.25rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .approach-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.25rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .approach-item {
+      padding: 0.25rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .approach-title {
+      font-size: 0.4375rem !important;
+      margin-bottom: 0.125rem !important;
+    }
+    #slide-persona[data-content-extreme="true"] .approach-text {
+      font-size: 0.4375rem !important;
+      line-height: 1.1 !important;
+    }
+
+    /* ========== データテーブル印刷スタイル ========== */
+    /* データテーブルの印刷時調整 */
+    .data-table {
+      font-size: 0.875rem !important;
+    }
+    
+    .data-table th,
+    .data-table td {
+      padding: 0.5rem 0.75rem !important;
+    }
+
+    /* ========== パターンG,H汎用化対応の印刷調整 ========== */
+    /* パターンG: 3列比較分析の印刷時調整 */
+    #slide-three-column-analysis .modern-card {
+      page-break-inside: avoid !important;
+      min-height: auto !important;
+    }
+    
+    #slide-three-column-analysis .analysis-quote {
+      page-break-inside: avoid !important;
+    }
+    
+    /* パターンH: 総括ダッシュボードの印刷時調整 */
+    #slide-summary-dashboard .col-span-4 {
+      page-break-inside: avoid !important;
+    }
+    
+    #slide-summary-dashboard .modern-card {
+      min-height: auto !important;
+      height: auto !important;
+    }
+    
+    /* 両パターン共通: メトリクス表示の印刷最適化 */
+    .metric-display-container {
+      display: block !important;
+      overflow: visible !important;
+    }
+
+    /* ========== データテーブル自動調整の印刷対応 ========== */
+    .table-scroll-container {
+      max-height: none !important;
+      overflow: visible !important;
+      page-break-inside: auto !important;
+    }
+    
+    /* 自動調整されたスタイルは維持 */
+    .data-table[style*="font-size"] {
+      /* インラインスタイルを最優先 */
+    }
+    
+    /* 印刷時のテーブル表示最適化 */
+    .data-table {
+      page-break-inside: auto !important;
+      border-collapse: collapse !important;
+    }
+    
+    .data-table tr {
+      page-break-inside: avoid !important;
+    }
+    
+    .data-table thead {
+      display: table-header-group !important;
+    }
+    
+    /* 印刷時の行の高さ調整 */
+    .data-table.print-optimized tr {
+      height: auto !important;
+      min-height: 1.5rem !important;
+    }
+  }
+
+  .modern-card {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.95) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+  }
+
+  .modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+  }
+
+  .gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .icon-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .metric-number {
+    font-family: "Roboto Mono", monospace;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .slide-title {
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .slide-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    line-height: 1.3;
+    opacity: 0.8;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-icon {
+    width: 4px;
+    height: 40px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+  }
+
+  .floating-animation {
+    animation: floating 3s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .pulse-animation {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .chart-container {
+    position: relative;
+    height: 250px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+  }
+
+  .badge-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .insight-card {
+    position: relative;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(248, 250, 252, 0.9) 100%
+    );
+    border-radius: 16px;
+    padding: 1.5rem;
+    border-left: 4px solid transparent;
+    border-image: var(--primary-gradient) 1;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .page-number {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* 口コミ分析用追加スタイル */
+  .sentiment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .sentiment-positive {
+    background: linear-gradient(135deg, #10b981, #047857);
+    color: white;
+  }
+
+  .sentiment-negative {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .sentiment-neutral {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .data-table th {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .data-table tr:hover {
+    background: rgba(102, 126, 234, 0.05);
+  }
+
+  .heat-cell {
+    position: relative;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .category-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  .analysis-quote {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(102, 126, 234, 0.05);
+    border-left: 4px solid;
+    border-image: var(--primary-gradient) 1;
+    border-radius: 8px;
+    font-style: italic;
+    margin: 1rem 0;
+  }
+
+  .analysis-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 3rem;
+    opacity: 0.2;
+    font-family: serif;
+  }
+
+  /* クラスター分析専用スタイル */
+  .cluster-grid-container {
+    overflow: visible;
+  }
+
+  .cluster-card {
+    border-radius: 20px;
+    padding: 1.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cluster-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .cluster-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+
+  .cluster-card:hover::before {
+    opacity: 1;
+  }
+
+  .cluster-header {
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cluster-id {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .cluster-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+
+  .cluster-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .cluster-content {
+    flex: 1;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cluster-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    opacity: 0.95;
+  }
+
+  .cluster-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cluster-tag {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* グリッドレイアウトの動的調整 */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* クラスター分析のレスポンシブ対応 */
+  @media (max-width: 768px) {
+    .grid-cols-3,
+    .grid-cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ペルソナシート専用スタイル */
+  .persona-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+    height: calc(100% - 4rem);
+    overflow: hidden;
+  }
+
+  .persona-basic {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .persona-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  .persona-detail-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .persona-card {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.95) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .persona-card.wide {
+    grid-column: 1 / -1;
+  }
+
+  .persona-photo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+    background: #e5e7eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .persona-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .persona-section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .persona-section-title .material-symbols-outlined {
+    font-size: 1.25rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .persona-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .persona-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .persona-info-item.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .info-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .info-value {
+    font-size: 0.875rem;
+    color: #1f2937;
+    font-weight: 600;
+  }
+
+  .persona-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .detail-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .detail-text {
+    font-size: 0.875rem;
+    color: #1f2937;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .approach-item {
+    background: rgba(102, 126, 234, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    border-left: 3px solid;
+    border-image: var(--primary-gradient) 1;
+  }
+
+  .approach-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+  }
+
+  .approach-text {
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ペルソナシートのレスポンシブ対応 */
+  @media (max-width: 1024px) {
+    .persona-container {
+      grid-template-columns: 250px 1fr;
+    }
+
+    .persona-detail-row {
+      grid-template-columns: 1fr;
+    }
+
+    .approach-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* データテーブル専用スタイル（パターンF） - 他のパターンに影響しないよう.data-table内に限定 */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .data-table th {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .data-table tr:hover {
+    background: rgba(102, 126, 234, 0.05);
+  }
+
+  /* データテーブル内専用のセルスタイル */
+  .data-table .heat-cell {
+    position: relative;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .data-table .numeric-cell {
+    text-align: right;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+  }
+
+  /* プログレスバー（data-table内専用） */
+  .data-table .table-progress {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .data-table .table-progress-bar {
+    height: 100%;
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+  }
+
+  /* ================================================
+     パターンG,H汎用化対応の追加CSS
+     ================================================ */
+  
+  /* 汎用3列比較分析（パターンG）専用スタイル */
+  .three-column-metric {
+    transition: all 0.3s ease;
+  }
+  
+  .three-column-metric:hover {
+    transform: scale(1.05);
+  }
+  
+  /* 汎用総括ダッシュボード（パターンH）専用スタイル */
+  .dashboard-metric-bar {
+    transition: width 0.5s ease-out;
+  }
+  
+  /* 動的カラー対応用のCSS変数 */
+  .dynamic-color-container {
+    --dynamic-bg-from: #ffffff;
+    --dynamic-bg-to: #f9fafb;
+    --dynamic-border: #e5e7eb;
+    --dynamic-text: #374151;
+  }
+  
+  /* 条件付き表示用のユーティリティクラス */
+  .conditional-hidden {
+    display: none !important;
+  }
+  
+  .conditional-visible {
+    display: block !important;
+  }
+  
+  /* フレキシブルグリッド対応 */
+  @media screen and (max-width: 1024px) {
+    #slide-three-column-analysis .md\:grid-cols-3 {
+      grid-template-columns: 1fr !important;
+    }
+    
+    #slide-summary-dashboard .col-span-4 {
+      grid-column: span 12 !important;
+    }
+  }
+
+  /* ================================================
+     データテーブル自動調整用CSS（パターンF拡張）
+     ================================================ */
+
+  /* データテーブルの自動調整用CSS */
+  .data-table.auto-sized {
+    font-size: 0.8rem; /* 80%固定 */
+    line-height: 1.3;
+  }
+
+  .data-table.auto-sized th,
+  .data-table.auto-sized td {
+    padding: 0.5rem 0.75rem; /* 固定パディング */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 行数が多い場合の特別なスタイル */
+  .data-table.many-rows {
+    font-size: 0.8rem; /* 80%固定 */
+  }
+
+  .data-table.many-rows th,
+  .data-table.many-rows td {
+    padding: 0.5rem 0.75rem; /* 固定パディング */
+  }
+
+  /* スクロール可能なテーブルコンテナ */
+  .table-scroll-container {
+    max-height: calc(100% - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* スクロールバーのスタイリング */
+  .table-scroll-container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .table-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  .table-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 4px;
+  }
