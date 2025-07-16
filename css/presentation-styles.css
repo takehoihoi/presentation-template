@@ -846,6 +846,102 @@
       padding: 0.5rem 0.75rem !important;
     }
 
+    /* ========== パターンA: 2列レイアウトの印刷対応強化 ========== */
+    /* Pattern A 専用のA4横印刷対応 */
+    .pattern-a-slide,
+    .slide-container[id*="slide-detail"][style*="grid-template-columns: 1fr 1fr"] {
+      width: 297mm !important;
+      height: 210mm !important;
+      margin: 0 !important;
+      padding: 20mm 25mm !important;
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* Pattern A のグリッドレイアウト強制 */
+    .pattern-a-slide .slide-content > div:nth-child(2),
+    .slide-container[id*="slide-detail"] .slide-content > div[style*="grid-template-columns: 1fr 1fr"] {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 1.5rem !important;
+      overflow: visible !important;
+      height: auto !important;
+      min-height: auto !important;
+    }
+    
+    /* Pattern A の左側チャート列 */
+    .pattern-a-slide .chart-container,
+    .slide-container[id*="slide-detail"] .chart-container {
+      height: 400px !important;
+      max-height: 140mm !important;
+      overflow: visible !important;
+      page-break-inside: avoid !important;
+    }
+    
+    /* Pattern A のCanvas要素最適化 */
+    .pattern-a-slide canvas,
+    .slide-container[id*="slide-detail"] canvas {
+      max-width: 100% !important;
+      max-height: 400px !important;
+      height: auto !important;
+      image-rendering: crisp-edges !important;
+      page-break-inside: avoid !important;
+    }
+    
+    /* Pattern A の右側分析列 */
+    .pattern-a-slide .analysis-content,
+    .pattern-a-slide .space-y-4,
+    .slide-container[id*="slide-detail"] .space-y-4 {
+      overflow: visible !important;
+      page-break-inside: avoid !important;
+      height: auto !important;
+    }
+    
+    /* Pattern A の分析項目 */
+    .pattern-a-slide .analysis-item,
+    .pattern-a-slide .modern-card[class*="border-l-4"],
+    .slide-container[id*="slide-detail"] .modern-card[class*="border-l-4"] {
+      margin-bottom: 15px !important;
+      page-break-inside: avoid !important;
+    }
+    
+    /* Pattern A のテキスト調整 */
+    .pattern-a-slide h4,
+    .slide-container[id*="slide-detail"] .modern-card h4 {
+      font-size: 11pt !important;
+      margin-bottom: 5px !important;
+      color: #333 !important;
+    }
+    
+    .pattern-a-slide p,
+    .slide-container[id*="slide-detail"] .modern-card p {
+      font-size: 10pt !important;
+      line-height: 1.5 !important;
+      color: #555 !important;
+    }
+    
+    /* Pattern A のバッジとラベル */
+    .pattern-a-slide .badge-modern,
+    .slide-container[id*="slide-detail"] .badge-modern {
+      font-size: 0.75rem !important;
+      padding: 0.25rem 0.5rem !important;
+    }
+    
+    /* Pattern A のフレックスボックスをグリッドに変換 */
+    .pattern-a-slide div[style*="display: flex"][style*="flex-direction: column"],
+    .slide-container[id*="slide-detail"] div[style*="display: flex"][style*="flex-direction: column"] {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    
+    /* Pattern A のアニメーション無効化 */
+    .pattern-a-slide *[style*="animation"],
+    .slide-container[id*="slide-detail"] *[style*="animation"] {
+      animation: none !important;
+    }
+    
     /* ========== パターンG,H汎用化対応の印刷調整 ========== */
     /* パターンG: 3列比較分析の印刷時調整 */
     #slide-three-column-analysis .modern-card {
