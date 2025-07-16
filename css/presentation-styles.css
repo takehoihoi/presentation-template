@@ -846,6 +846,87 @@
       padding: 0.5rem 0.75rem !important;
     }
 
+    /* ========== 円グラフページの印刷対応 ========== */
+    /* Pattern E: 円グラフダッシュボードの印刷時調整 */
+    #slide-pie-chart-dashboard {
+      width: 297mm !important;
+      height: 210mm !important;
+      margin: 0 !important;
+      padding: 20mm 25mm !important;
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* 円グラフページの2列グリッドを確実に適用 */
+    #slide-pie-chart-dashboard .flex-1.grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 1.5rem !important;
+      overflow: visible !important;
+    }
+    
+    /* チャートコンテナの印刷最適化 */
+    #slide-pie-chart-dashboard .chart-container {
+      height: 400px !important;
+      max-height: 140mm !important;
+      overflow: visible !important;
+      page-break-inside: avoid !important;
+    }
+    
+    /* Canvas要素の印刷最適化 */
+    #slide-pie-chart-dashboard canvas {
+      max-width: 100% !important;
+      max-height: 400px !important;
+      height: auto !important;
+      image-rendering: crisp-edges !important;
+      page-break-inside: avoid !important;
+    }
+    
+    /* セグメント表示の印刷調整 */
+    #slide-pie-chart-dashboard .grid.grid-cols-2.md\\:grid-cols-4 {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 1rem !important;
+    }
+    
+    /* 右側の統計情報の印刷調整 */
+    #slide-pie-chart-dashboard .space-y-4 {
+      overflow: visible !important;
+      height: auto !important;
+    }
+    
+    /* メトリクスカードの印刷最適化 */
+    #slide-pie-chart-dashboard .modern-card {
+      page-break-inside: avoid !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    /* テキストサイズの調整 */
+    #slide-pie-chart-dashboard .text-sm {
+      font-size: 10pt !important;
+    }
+    
+    #slide-pie-chart-dashboard .text-xl {
+      font-size: 14pt !important;
+    }
+    
+    #slide-pie-chart-dashboard .text-2xl {
+      font-size: 16pt !important;
+    }
+    
+    /* メトリック数値のサイズ調整 */
+    #slide-pie-chart-dashboard .metric-number {
+      font-size: 20pt !important;
+    }
+    
+    /* フレックスボックスをグリッドに変換 */
+    #slide-pie-chart-dashboard .flex.flex-col {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    
     /* ========== パターンA: 2列レイアウトの印刷対応強化 ========== */
     /* Pattern A 専用のA4横印刷対応 */
     .pattern-a-slide,
